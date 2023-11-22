@@ -23,6 +23,13 @@ public class UserController {
 
     Logger log = LoggerFactory.getLogger(UserController.class);
 
+    /**
+     * @author Kiran Paithane
+     * @apiNote create user in database
+     * @since  4.0.0
+     * @param userDto
+     * @return Dto
+     */
 
     @PostMapping("/create")
     public ResponseEntity<UserDto> createUser (@Valid @RequestBody UserDto userDto){
@@ -32,6 +39,13 @@ public class UserController {
     return new ResponseEntity<>(Dto , HttpStatus.CREATED);
     }
 
+    /**
+     * @author Kiran Paithane
+     * @apiNote get single user from database using userId
+     * @since  4.0.0
+     * @param userId
+     * @return singleUser
+     */
     @GetMapping("/get/{userId}")
     public ResponseEntity<UserDto> getSingleUser ( @PathVariable String userId){
         log.info("Getting the request to get single User");
@@ -39,6 +53,17 @@ public class UserController {
         log.info("To get Single User Request Completed");
         return new ResponseEntity<>(singleUser , HttpStatus.OK);
     }
+
+    /**
+     * @author Kiran Paithane
+     * @apiNote getting all user with page size and page Number
+     * @since 4.0.0
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param sortby
+     * @return listOfUsers
+     */
     @GetMapping("/getAll")
     public ResponseEntity<PagebleResponse<UserDto>> getAllUser (
             @RequestParam(value = "pageNumber" ,defaultValue = AppConstant.PAGE_NUMBER,required = false) int pageNumber ,
@@ -54,6 +79,15 @@ public class UserController {
         return new ResponseEntity<>(allUser , HttpStatus.OK);
 
     }
+
+    /**
+     * @author Kiran Paithane
+     * @apiNote update the user in database
+     * @since 4.0.0
+     * @param userDto
+     * @param userId
+     * @return updataedUserDto
+     */
     @PutMapping("/update/{user}")
     public ResponseEntity<UserDto> updateUser (@Valid @RequestBody UserDto userDto , @PathVariable String userId){
        log.info("Getting the request to update the user");
@@ -61,6 +95,14 @@ public class UserController {
         log.info("Update User request completed");
         return new ResponseEntity<>(updateUserDto , HttpStatus.CREATED);
     }
+
+    /**
+     * @author Kiran Paithane
+     * @apiNote detete the user from datatbse
+     * @since 4.0.0
+     * @param userId
+     * @return user delete confurmation message
+     */
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<ApiResponse> deleteUser (@PathVariable String userId) {
         log.info("Getting request to delete the user");
@@ -74,6 +116,14 @@ public class UserController {
             return new ResponseEntity<>(massage , HttpStatus.OK);
     }
 
+    /**
+     * @author Kiran Paithnae
+     * @apiNote getting user using user name
+     * @since 4.0.0
+     * @param userName
+     * @return userByUserName
+     */
+
     @GetMapping("/byNmae/{userName}")
     public ResponseEntity<UserDto> userByUserName (@PathVariable String userName){
         log.info("Getting request to get User detail Using user name");
@@ -82,6 +132,14 @@ public class UserController {
         return new ResponseEntity<>(userByUserName , HttpStatus.FOUND);
     }
 
+    /**
+     * @author Kiran Paithane
+     * @apiNote getting user by using Email and Password
+     * @since 4.0.0
+     * @param email
+     * @param password
+     * @return userByEmailAndPassword
+     */
     @GetMapping("email/{email}/password/{password}")
     public ResponseEntity<UserDto> getUserByEmailAndPassword (@PathVariable String email ,@PathVariable String password){
         log.info("Getting request to find user using Email and Password");
@@ -89,6 +147,14 @@ public class UserController {
         log.info("To find user using Email and Password is completed");
         return new ResponseEntity<>(userByEmailAndPassword , HttpStatus.OK);
     }
+
+    /**
+     * @author Kiran Paithane
+     * @apiNote searche user using keyword
+     * @since 4.0.0
+     * @param keyword
+     * @return userDtos
+     */
     @GetMapping("search/{keyword}")
     public ResponseEntity<List<UserDto>> searchUser (@PathVariable String keyword){
         log.info("Getting request to search user using keyword");
