@@ -50,5 +50,15 @@ public class GlobleExceptionHandeling {
 
     }
 
+    @ExceptionHandler(BadApiRequest.class)
+    public ResponseEntity<ApiResponse> handleBadApiRequest (BadApiRequest ex){
+
+        String message = ex.getMessage();
+
+        ApiResponse apiResponse = new ApiResponse(message, false , HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(apiResponse , HttpStatus.BAD_REQUEST);
+    }
+
 
 }

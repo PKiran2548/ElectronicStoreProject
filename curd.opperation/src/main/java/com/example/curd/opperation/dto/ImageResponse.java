@@ -8,15 +8,10 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApiResponse {
+public class ImageResponse {
 
+    private String imageName ;
     private String massage ;
     private boolean sucess ;
     private HttpStatus status ;
-
-//    public ApiResponse(String massage, boolean sucess, HttpStatus status) {
-//        this.massage = massage;
-//        this.sucess = sucess;
-//        this.status = status;
-//    }
 }

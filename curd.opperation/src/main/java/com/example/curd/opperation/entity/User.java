@@ -17,18 +17,24 @@ import javax.persistence.Table;
 public class User {
 
     @Id
+    @Column(name="user_id")
     private String userId ;
 
-
+    @Column(name="user_name")
     private String userName;
 
+    @Column(name="user_password")
     private String password;
 
+    @Column(name="user_email")
     private String email;
 
+    @Column(name="user_gender")
     private String gender;
 
+    @Column(name="about_user")
     private String about ;
 
+    @Column(name="user_image")
     private String imageName ;
 }

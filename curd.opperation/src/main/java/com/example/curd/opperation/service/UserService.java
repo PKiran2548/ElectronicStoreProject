@@ -27,4 +27,6 @@ public interface UserService {
 
 
     PagebleResponse<UserDto> getAllUser(int pageNumber, int pageSize);
+
+    UserDto getUserById(String userId);
 }
