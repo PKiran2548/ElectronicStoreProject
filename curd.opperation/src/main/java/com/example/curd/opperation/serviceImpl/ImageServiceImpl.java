@@ -29,7 +29,7 @@ public class ImageServiceImpl implements ImageService {
 
         String fileNameWithExtension = fileName + extension;
 
-        String fullPathWithFileName = path + File.separator + fileNameWithExtension ;
+        String fullPathWithFileName = path  + fileNameWithExtension ;
 
         if (extension.equalsIgnoreCase(".png")|| extension.equalsIgnoreCase(".jepg")){
 

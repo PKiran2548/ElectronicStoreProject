@@ -3,36 +3,38 @@ package com.example.curd.opperation.service;
 import com.example.curd.opperation.dto.ProductDto;
 import com.example.curd.opperation.helper.PagebleResponse;
 
-public interface ProductService {
-    //create
-    ProductDto create(ProductDto productDto);
+import java.util.List;
 
-    //update
-    ProductDto update(ProductDto productDto, String productId);
+public interface ProductService {
+
+    // create
+
+    ProductDto createProduct (ProductDto productDto);
+
+    // update
+
+    ProductDto updateProduct (ProductDto productDto , String productId);
 
     //delete
-    void delete(String productId);
 
-    //get single
+    void deleteProduct (String productId);
 
-    ProductDto get(String productId);
+    // get single
 
-    //get all
-    PagebleResponse<ProductDto> getAll(int pageNumber, int pageSize, String sortBy, String sortDir);
+    ProductDto getSingleProduct (String productId);
 
-    //get all : live
-    PagebleResponse<ProductDto> getAllLive(int pageNumber, int pageSize, String sortBy, String sortDir);
+    // get all
 
-    //search product
-    PagebleResponse<ProductDto> searchByTitle(String subTitle, int pageNumber, int pageSize, String sortBy, String sortDir);
+    PagebleResponse<ProductDto> getAllProduct (Integer pageNumber , Integer pageSize , String sortBy , String sortDir );
 
+    // get all ; live
 
-    //create product with category
-    ProductDto createWithCategory(ProductDto productDto,String categoryId);
+    PagebleResponse<ProductDto> getAllLiveProduct (Integer pageNumber , Integer pageSize , String sortBy , String sortDir);
 
+    // search product
 
-    //update category of product
-    ProductDto updateCategory(String productId,String categoryId);
+    PagebleResponse<ProductDto> searchByTitle (String title , Integer pageNumber , Integer pageSize , String sortBy , String sortDir);
 
-    PagebleResponse<ProductDto> getAllOfCategory(String categoryId,int pageNumber,int pageSize,String sortBy, String sortDir);
+    // other methods
+
 }

@@ -21,5 +21,5 @@ public interface CategoryService {
     //get single category detail
     CategoryDto get (String categoryId);
 
-    //search:
+
 }

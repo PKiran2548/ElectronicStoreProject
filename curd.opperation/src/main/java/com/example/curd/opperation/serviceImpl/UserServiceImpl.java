@@ -11,14 +11,22 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.RasterFormatException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,7 +36,12 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo ;
 
     @Autowired
+    private PasswordEncoder passwordEncoder ;
+
+    @Autowired
     private ModelMapper modelMapper ;
+    @Value("${user.profile.image.path}")
+    private String imagePath ;
 
     Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -37,6 +50,9 @@ public class UserServiceImpl implements UserService {
         log.info("Initiating request to save user in database");
         String id = UUID.randomUUID().toString();
         userDto.setUserId(id);
+        // encode password
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         User user = this.modelMapper.map(userDto, User.class);
 
         User saveUser = this.userRepo.save(user);
@@ -73,6 +89,8 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+
+
     @Override
     public UserDto updateUser(UserDto userDto, String userId) {
         log.info("Initiating the request to update the user");
@@ -92,14 +110,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(String userId) {
+    public boolean deleteUser(String userId) throws IOException {
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User","userId",userId));
         if (user != null){
+
+            // delete user image
+
+            String imageFullPath = imagePath + user.getImageName();
+            try{
+                Path path = Paths.get(imageFullPath);
+                Files.delete(path);
+            }catch (NoSuchFileException ex){
+                log.info("no such file found in folder");
+                ex.printStackTrace();
+            }catch (IOException ex) {
+                ex.printStackTrace();
+                }
+            }
+
             this.userRepo.delete(user);
             return true ;
-        }else{
-            return false ;
-        }
+
+
     }
 
     @Override
@@ -110,8 +142,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        UserDto byEmail = this.userRepo.findByEmail(email);
-        return byEmail;
+        Optional<User> byEmail = this.userRepo.findByEmail(email);
+        UserDto userDto = modelMapper.map(byEmail, UserDto.class);
+        return userDto;
     }
 
     @Override

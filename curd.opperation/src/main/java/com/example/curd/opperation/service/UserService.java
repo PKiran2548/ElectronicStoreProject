@@ -3,6 +3,7 @@ package com.example.curd.opperation.service;
 import com.example.curd.opperation.dto.UserDto;
 import com.example.curd.opperation.helper.PagebleResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -15,7 +16,7 @@ public interface UserService {
 
      UserDto updateUser (UserDto userDto , String userId);
 
-     boolean deleteUser (String userId);
+     boolean deleteUser (String userId) throws IOException;
 
      UserDto getUserByUserName (String userNmae);
 
@@ -28,5 +29,5 @@ public interface UserService {
 
     PagebleResponse<UserDto> getAllUser(int pageNumber, int pageSize);
 
-    UserDto getUserById(String userId);
+
 }

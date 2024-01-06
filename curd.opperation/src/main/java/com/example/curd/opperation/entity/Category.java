@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +28,7 @@ public class Category {
     private String description;
 
     private String coverImage;
+
+    @OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepo extends JpaRepository <Product,String > {
 
     //search
-    Page<Product> findByTitleContaining(String subTitle, Pageable pageable);
+    Page<Product> findByTitleContaining(String title, Pageable pageable);
 
     Page<Product> findByLiveTrue(Pageable pageable);
 

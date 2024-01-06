@@ -18,17 +18,17 @@ public class UserDto {
     private String userId ;
 
     @NotEmpty()
-    @Pattern(regexp = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"
-            , message = "username is 8-20 characters long")
+//    @Pattern(regexp = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"
+//            , message = "username is 8-20 characters long")
     private String userName;
 
     @NotEmpty
-   @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
-                        , message = "Invalid Password")
+//   @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+//                        , message = "Invalid Password")
     private String password;
 
 
-    @Pattern(regexp = "/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*/.")
+   // @Pattern(regexp = "/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*/.")
     @Email(message = "Enter Valied email")
     private String email;
 

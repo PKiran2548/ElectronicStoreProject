@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class UserController {
     private ImageService fileService;
 
     @Value("${user.profile.image.path}")
-    private String imageUploadPath;
+    private String imageUploadPath; // we declare path in application.properties file
 
 
     Logger log = LoggerFactory.getLogger(UserController.class);
@@ -120,7 +119,7 @@ public class UserController {
      * @since 4.0.0
      */
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable String userId) {
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable String userId) throws IOException {
         log.info("Getting request to delete the user");
         boolean result = this.userService.deleteUser(userId);
         ApiResponse massage = ApiResponse.builder()
@@ -181,13 +180,18 @@ public class UserController {
 
     // upload user image
 
-    @PostMapping("/image/{userId}")
+    @PostMapping("/userImage/{userId}")
     public ResponseEntity<ImageResponse> uploadUserImage(@RequestParam("userImage") MultipartFile image, @PathVariable String userId) throws IOException, IOException {
+        log.info("Getting request to upload the user image");
+
         String imageName = fileService.uploadImage(image, imageUploadPath);
-        UserDto user = userService.getUserById(userId);
+        UserDto user = userService.getSingleUser(userId);
+
         user.setImageName(imageName);
         UserDto userDto = userService.updateUser(user, userId);
         ImageResponse imageResponse = ImageResponse.builder().imageName(imageName).sucess(true).massage("image is uploaded successfully ").status(HttpStatus.CREATED).build();
+
+        log.info("user image uploded sucessfully");
         return new ResponseEntity<>(imageResponse, HttpStatus.CREATED);
 
     }
@@ -196,7 +200,7 @@ public class UserController {
 
     @GetMapping(value = "/image/{userId}")
     public void serveUserImage(@PathVariable String userId, HttpServletResponse response) throws IOException {
-        UserDto user = userService.getUserById(userId);
+        UserDto user = userService.getSingleUser(userId);
         log.info("User image name : {} ", user.getImageName());
         InputStream resource = fileService.getResource(imageUploadPath, user.getImageName());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);

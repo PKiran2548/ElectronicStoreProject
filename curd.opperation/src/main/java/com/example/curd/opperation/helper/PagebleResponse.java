@@ -13,11 +13,11 @@ public class PagebleResponse<T> {
 
     private List<T> containt ;
 
-    private int pageNumber ;
+    private Integer pageNumber ;
 
-    private int pageSize;
+    private Integer pageSize;
 
-    private int totalPages ;
+    private Integer totalPages ;
 
     private long totalElement ;
 
